@@ -5,18 +5,19 @@
 
 using namespace std;
 
-class huffman_node{
+class HuffmanNode{
 public:
-    huffman_node* left_child;
-    huffman_node* right_child;
+    HuffmanNode* left_child;
+    HuffmanNode* right_child;
 
     char character;
     size_t frequency;
-    std::string huffman_code;
+    string huffman_code;
 
-    huffman_node(){
+    HuffmanNode(){
         left_child = NULL;
         right_child = NULL;
+        frequency = 0;
     }
 };
 
