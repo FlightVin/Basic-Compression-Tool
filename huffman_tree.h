@@ -8,6 +8,8 @@
 
 using namespace std;
 
+int convert_bin_to_dec(const string& bin_str);
+
 class HuffmanTree{
 private:
     vector <HuffmanNode*> huffman_nodeptr_vector;
@@ -32,7 +34,8 @@ public:
     void make_pq();   
     void create_tree();
     void assign_codes();
-    void assign_code_to_node(HuffmanNode* cur_node, string& cur_code);    
+    void assign_code_to_node(HuffmanNode* cur_node, string& cur_code);
+    void create_compressed_file();
 };
 
 #endif
