@@ -31,6 +31,8 @@ public:
     void create_huffman_vector();
     void make_pq();   
     void create_tree();
+    void assign_codes();
+    void assign_code_to_node(HuffmanNode* cur_node, string& cur_code);    
 };
 
 #endif
