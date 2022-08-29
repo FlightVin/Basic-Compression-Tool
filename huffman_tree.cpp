@@ -6,7 +6,7 @@ int convert_bin_to_dec(const string& bin_str){
     int res = 0;
     for (int i = 0; i<bin_str.size(); i++){
         res = res*2;
-        res += bin_str[i] - '0';
+        res += (bin_str[i] - '0');
     }
     return res;
 }
@@ -26,6 +26,7 @@ void HuffmanTree::create_huffman_vector(){
     for (int i = 0; i<huffman_nodeptr_vector.size(); i++){
         huffman_nodeptr_vector[i] = new HuffmanNode;
         huffman_nodeptr_vector[i]->character = static_cast<char>(i);
+        // cerr<<huffman_nodeptr_vector[i]->character<<endl;
     }
 }
 
@@ -34,6 +35,7 @@ void HuffmanTree::make_pq(){
     input_file_stream.get(read_char);
     while(!input_file_stream.eof()){
         huffman_nodeptr_vector[static_cast<int>(read_char)]->frequency++;
+        // cerr<<static_cast<int>(read_char)<<endl;
         input_file_stream.get(read_char);
     }
     for (int i = 0; i<huffman_nodeptr_vector.size(); i++){
@@ -53,7 +55,7 @@ void HuffmanTree::create_tree(){
         HuffmanNode* left_node = temp_pq.top(); temp_pq.pop();
         HuffmanNode* right_node = temp_pq.top(); temp_pq.pop();
 
-        cerr<<left_node->character<<" "<<right_node->character<<endl;
+        // cerr<<left_node->character<<" "<<right_node->character<<endl;
 
         temp_root->frequency = left_node->frequency + right_node->frequency;
         temp_root->left_child = left_node;
@@ -74,6 +76,7 @@ void HuffmanTree::assign_code_to_node(HuffmanNode* cur_node, string& cur_code){
 
     if (cur_node->left_child == NULL && cur_node->right_child == NULL){
         cur_node->huffman_code = cur_code;
+        // cerr<<cur_node->character<<" "<<cur_node->huffman_code<<endl;
         return; 
     }
 
@@ -91,12 +94,13 @@ void HuffmanTree::create_compressed_file(){
     input_file_stream.open(input_file_path, ios::in);
     output_file_stream.open(output_file_path, ios::out | ios::binary);
 
-    string write_out_string = "", temp_str = "";
+    auto write_out_string = ""s, temp_str = ""s;
 
     HuffmanPriorityQueue temp_pq(huffman_node_pq);
 
     write_out_string.push_back(static_cast<char>(temp_pq.size()));
-
+    // cerr<<temp_pq.size()<<endl;
+    // write_out_string<<endl;
     while(!temp_pq.empty()){
         HuffmanNode* cur_node = temp_pq.top(); temp_pq.pop();
         write_out_string.push_back(cur_node->character);
@@ -105,11 +109,14 @@ void HuffmanTree::create_compressed_file(){
         temp_str.push_back('1');
         temp_str.append(cur_node->huffman_code);
 
+        // cerr<<temp_str<<endl;
+
         for (int i = 0; i<31; i++){
             write_out_string.push_back(static_cast<char>(convert_bin_to_dec(temp_str.substr(0, 8))));
             temp_str = temp_str.substr(8);
         }
         write_out_string.push_back(static_cast<char>(convert_bin_to_dec(temp_str.substr(0, 8))));
+        // cerr<<write_out_string<<" "<<write_out_string.size()<<endl;
     }
 
     temp_str.clear();
@@ -135,7 +142,12 @@ void HuffmanTree::create_compressed_file(){
     write_out_string.push_back(static_cast<char>(convert_bin_to_dec(temp_str.substr(0, 8))));
     write_out_string.push_back(static_cast<char>(left_over));
 
-    output_file_stream.write(write_out_string.c_str(), write_out_string.size());
+    // if (output_file_stream.is_open()) cerr<<"Output file is open"<<endl;
+
+    // cerr<<write_out_string.c_str()<<" "<<write_out_string.size()<<endl;
+    // output_file_stream.write(write_out_string.c_str(), write_out_string.size());
+    cerr<<write_out_string<<endl;
+    output_file_stream<<write_out_string;
 
     input_file_stream.close();
     output_file_stream.close();
