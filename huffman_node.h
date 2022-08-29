@@ -18,6 +18,7 @@ public:
         left_child = NULL;
         right_child = NULL;
         frequency = 0;
+        character = '\0';
     }
 };
 

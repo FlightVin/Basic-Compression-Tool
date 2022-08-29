@@ -53,6 +53,8 @@ void HuffmanTree::create_tree(){
         HuffmanNode* left_node = temp_pq.top(); temp_pq.pop();
         HuffmanNode* right_node = temp_pq.top(); temp_pq.pop();
 
+        cerr<<left_node->character<<" "<<right_node->character<<endl;
+
         temp_root->frequency = left_node->frequency + right_node->frequency;
         temp_root->left_child = left_node;
         temp_root->right_child = right_node;

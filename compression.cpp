@@ -1,5 +1,8 @@
 #include <iostream>
 #include "huffman_tree.h"
+#include "huffman_tree.h"
+
+using namespace std;
 
 int main(int argc, char** argv){
 
